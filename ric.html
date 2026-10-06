@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="mini-header">
+        <a href="index.html" class="header-logo">
+            <img src="photo 1.jop.png" alt="logo">
+        </a>
+        <a href="cart.html" class="header-cart-btn">
+            🛒 السلة (<span class="cart-count-badge">0</span>)
+        </a>
+    </header>
+    <div class="top-btn"></div>
+    <div class="cards">
+        <a  class="card">
+            <img src="photo 22.jpg">
+       <h2> تمن</h2>
+              <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+    <button onclick="addToCart('تمن', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </a>
+        </a>
+          <a  class="card">
+            <img src="photo29.jpg">
+            <h2>تمن</h2>
+            <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+    <button onclick="addToCart('تمن', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </a>
+ 
+        <a  class="card">
+            <img src="photo23.jpg">
+            <h2>صينة لحم ودجاج</h2>
+            <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+    <button onclick="addToCart('تمن', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </a>
+             <a  class="card">
+            <img src="photo24.jpg" >
+            <h2>تمن</h2>
+            <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+    <button onclick="addToCart('تمن', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </a>
+    </div>
+    <script>
+// مفتاح تخزين السلة
+const CART_KEY = "women_cooking_cart";
+
+function getCart() {
+    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+}
+
+function saveCart(cart) {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    updateCartBadge();
+}
+
+function addToCart(name, price) {
+    let cart = getCart();
+    let existing = cart.find(item => item.name === name);
+
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({ name: name, price: Number(price), quantity: 1 });
+    }
+ saveCart(cart);
+            alert(`تمت إضافة "${name}" إلى السلة 🛒`);
+}
+
+function updateCartBadge() {
+    let cart = getCart();
+    let total = cart.reduce((sum, item) => sum + item.quantity, 0);
+    let badges = document.querySelectorAll(".cart-count-badge");
+    badges.forEach(badge => badge.innerText = total);
+}
+
+document.addEventListener("DOMContentLoaded", updateCartBadge);
+</script>
+
+</body>
+
+
+<a href="#top" class="top-btn" title="العودة الى الاعلى">^</a>
+<script src="js/cart.js"></script>
+</html>

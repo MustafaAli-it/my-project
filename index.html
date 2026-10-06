@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طبخ نسوان</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="home" id="top">
+
+    <!-- الهيدر الثابت المنسق (ترتيب: يمين - وسط - يسار) -->
+    <header class="main-header" id="mainHeader">
+        <!-- 1. الشعار على اليمين -->
+        <a href="index.html" class="header-logo">
+            <img src="photo 1.jop.png" alt="طبخ نسوان">
+        </a>
+
+        <!-- 2. تفاصيل العنوان والرقم في الوسط -->
+        <div class="header-info">
+            <p class="address-text">📍 الحله - مقابل اعدادية الثورة للبنين - خدمي حي الضباط</p>
+            <p class="phone-text">📞 للاستفسار اتصل بالرقم: <a href="tel:07822507024">07822507024</a></p>
+        </div>
+
+        <!-- 3. زر السلة على اليسار -->
+        <a href="cart.html" class="header-cart-btn">
+            🛒 السلة (<span class="cart-count-badge">0</span>)
+        </a>
+    </header>
+
+    <!-- كروت أقسام المنيو -->
+    <a href="eat .html" class="card">
+        <img src="photo 2.iop.jpg" alt="اكلات شرقيه">
+        <h2>اكلات شرقيه</h2>
+    </a>
+    <a href="ric.html" class="card">
+        <img src="photo36.jpg">
+        <h2>تمن ومرق </h2>
+    </a>
+    <a href="offers.html" class="card">
+        <img src="photo4.jpg" alt="العروضات">
+        <h2>العروضات</h2>
+    </a>
+    <a href="breakfast.html" class="card">
+        <img src="photo5.jpg" alt="فطور عراقي">
+        <h2>فطور عراقي</h2>
+    </a>
+    <a href="grilled dishes.html" class="card">
+        <img src="photo15.jpg" alt="المعجنات">
+        <h2>المعجنات</h2>
+    </a>
+    <a href="hht.html" class="card">
+        <img src="photo7.jpg" alt="مقبلات والسلطه">
+        <h2>مقبلات والسلطه</h2>
+    </a>
+    <a href="drink.html" class="card">
+        <img src="photo 8.jpg" alt="المشروبات">
+        <h2>المشروبات</h2>
+    </a> 
+    <a href="from.html" class="card">
+        <img src="photo52.jpg" alt="توظيف">
+        <h2>توظيف</h2>
+    </a>
+
+    <!-- قسم اتصل بنا -->
+    <section class="my-contact" dir="rtl">
+        <div class="my-contact-title">
+            <span></span>
+            <h2>اتصل بنا</h2>
+        </div>
+
+        <div class="my-contact-item">
+            <div class="my-contact-icon">☎</div>
+            <div>
+                <small>رقم الهاتف</small>
+                <p>07822507024</p>
+            </div>
+        </div>
+
+        <div class="my-contact-item">
+            <div class="my-contact-icon">✉</div>
+            <div>
+                <small>البريد الإلكتروني</small>
+                <p>ml7232998@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="my-contact-item">
+            <div class="my-contact-icon">⌖</div>
+            <div>
+                <small>العنوان</small>
+                <p>الحله \ مقابل اعدادية الثورة للبنين \ خدمي حي الضباط</p>     
+            </div>
+        </div>
+
+        <div class="my-contact-item">
+            <div class="my-contact-icon">◷</div>
+            <div>
+                <small>أوقات العمل</small>
+                <p>08:30 AM - 11:00 PM</p>
+            </div>
+        </div>
+
+        <div class="my-contact-buttons">
+            <a href="tel:07822507024" class="my-call">
+                ☎ &nbsp; اتصال
+            </a>
+
+            <a href="https://wa.me/07822507024" target="_blank" class="my-whatsapp">
+                ◉ &nbsp; واتساب
+            </a>
+        </div>
+    </section>
+
+    <!-- زر العودة للقمة -->
+    <a href="#top" class="top-btn" title="العودة الى الاعلى">^</a>
+
+    <!-- أكواد الجافاسكربت -->
+    <script>
+        const CART_KEY = "women_cooking_cart";
+
+        function getCart() {
+            return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+            updateCartBadge();
+        }
+
+        function addToCart(name, price) {
+            let cart = getCart();
+            let existing = cart.find(item => item.name === name);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ name: name, price: Number(price), quantity: 1 });
+            }
+ saveCart(cart);
+            alert(`تمت إضافة "${name}" إلى السلة 🛒`);
+           
+        }
+
+        function updateCartBadge() {
+            let cart = getCart();
+            let total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            let badges = document.querySelectorAll(".cart-count-badge");
+            badges.forEach(badge => badge.innerText = total);
+        }
+
+        // انكماش الهيدر عند السكرول
+        window.addEventListener("scroll", function () {
+            const header = document.getElementById("mainHeader");
+            if (header) {
+                if (window.scrollY > 50) {
+                    header.classList.add("scrolled");
+                } else {
+                    header.classList.remove("scrolled");
+                }
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", updateCartBadge);
+    </script>
+
+<script>
+    function updateHeaderOnScroll() {
+        const header = document.querySelector('.main-header');
+        if (!header) return;
+
+        // يعمل فقط في شاشات الموبايل (768px أو أقل)
+        if (window.innerWidth <= 768) {
+            // فحص التمرير بجميع أنواع المتصفحات
+            const currentScroll = window.scrollY || document.documentElement.scrollTop;
+            
+            if (currentScroll > 30) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }
+
+    window.addEventListener('scroll', updateHeaderOnScroll);
+    window.addEventListener('resize', updateHeaderOnScroll);
+</script>
+</body>
+</html>

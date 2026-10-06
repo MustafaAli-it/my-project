@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلة الطلبات - مطعم طبخ نسوان</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: inherit;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .cart-box {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .cart-header {
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .item-info strong {
+            font-size: 17px;
+            color: #333;
+        }
+        .item-info small {
+            color: #666;
+            display: block;
+            margin-top: 4px;
+        }
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-qty {
+            background: #e67e22;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .btn-remove {
+            background: none;
+            border: none;
+            color: #d9534f;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        .total-box {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #eee;
+        }
+        .btn-whatsapp {
+            display: block;
+            width: 100%;
+            background-color: #25d366;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+        .btn-back {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #e67e22;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+  <header class="mini-header">
+        <a href="index.html" class="header-logo">
+            <img src="photo 1.jop.png" alt="logo">
+        </a>
+       
+    </header>
+
+
+    <div class="cart-box">
+        <a href="index.html" class="btn-back">➡️ العودة للمنيو</a>
+        <div class="cart-header">
+            <h2>🛒 سلة الطلبات</h2>
+        </div>
+
+        <!-- هنا ينزل محتوى الأكلات المضافة -->
+        <div id="cart-items-container"></div>
+
+        <!-- المجموع الكلي -->
+        <div class="total-box">
+            <span>المجموع الكلي:</span>
+            <span id="cart-total-price">0 د.ع</span>
+        </div>
+
+        <!-- زر الواتساب -->
+        <button onclick="sendOrderToWhatsApp()" class="btn-whatsapp">
+            📲 إرسال الطلب عبر الواتساب
+        </button>
+    </div>
+
+    <!-- كود التشغيل المباشر لضمان القراءة بدون أخطاء مسارات -->
+    <script>
+        const CART_KEY = "women_cooking_cart";
+
+        function getCart() {
+            return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+            renderCartPage();
+        }
+
+        function updateQuantity(index, change) {
+            let cart = getCart();
+            cart[index].quantity += change;
+
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+
+            saveCart(cart);
+        }
+
+        function removeItem(index) {
+            let cart = getCart();
+            cart.splice(index, 1);
+            saveCart(cart);
+        }
+
+        function renderCartPage() {
+            let container = document.getElementById("cart-items-container");
+            let totalEl = document.getElementById("cart-total-price");
+            if (!container) return;
+
+            let cart = getCart();
+            container.innerHTML = "";
+
+            if (cart.length === 0) {
+                container.innerHTML = "<p style='text-align:center; padding:20px; color:#777;'>السلة فارغة حالياً 🛒</p>";
+                if (totalEl) totalEl.innerText = "0 د.ع";
+                return;
+            }
+
+            let totalPrice = 0;
+            cart.forEach((item, index) => {
+                let itemTotal = item.price * item.quantity;
+                totalPrice += itemTotal;
+
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <div class="item-info">
+                            <strong>${item.name}</strong>
+                            <small>السعر المفرد: ${item.price.toLocaleString()} د.ع</small>
+                        </div>
+                        <div class="item-controls">
+                            <button class="btn-qty" onclick="updateQuantity(${index}, -1)">-</button>
+                            <span style="font-weight:bold; min-width:20px; text-align:center;">${item.quantity}</span>
+                            <button class="btn-qty" onclick="updateQuantity(${index}, 1)">+</button>
+                            <button class="btn-remove" onclick="removeItem(${index})">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (totalEl) totalEl.innerText = `${totalPrice.toLocaleString()} د.ع`;
+        }
+
+        function sendOrderToWhatsApp() {
+            let cart = getCart();
+            if (cart.length === 0) {
+                alert("السلة فارغة، يرجى اختيار الأكلات أولاً!");
+                return;
+            }
+
+            let phone = "9647822507024";
+            let message = " *طلب جديد اللى مطعم طبخ نسوان:*\n";
+            message += "-----------------------------------\n";
+
+            let totalPrice = 0;
+            cart.forEach(item => {
+                let itemTotal = item.price * item.quantity;
+                totalPrice += itemTotal;
+                message += `• ${item.name} | العدد: ${item.quantity} | السعر: ${itemTotal.toLocaleString()} د.ع\n`;
+            });
+
+            message += "-----------------------------------\n";
+            message += `💰 *المجموع الكلي:* ${totalPrice.toLocaleString()} د.ع`;
+
+            let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, "_blank");
+        }
+
+        // تشغيل العرض فور فتح الصفحة
+        document.addEventListener("DOMContentLoaded", renderCartPage);
+    </script>
+</body>
+</html>

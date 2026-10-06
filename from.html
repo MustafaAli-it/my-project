@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>استمارة التوظيف</title>
+    
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+    <header class="mini-header">
+        <a href="index.html" class="header-logo">
+            <img src="photo 1.jop.png" alt="logo">
+        </a>
+      
+    </header>
+    <div class="top-btn"></div>
+
+    <div class="page">
+
+        <div class="form-card">
+
+            <div class="logo">
+                <span>✦</span>
+            </div>
+
+            <h1>استمارة التوظيف</h1>
+
+            <p class="subtitle">
+                املأ المعلومات التالية للتقديم على العمل
+            </p>
+
+            <form id="jobForm">
+
+                <div class="input-group">
+                    <label for="name">الاسم الكامل</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="أدخل اسمك الكامل"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="07xxxxxxxxx"
+                        inputmode="tel"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="age">العمر</label>
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        placeholder="أدخل عمرك"
+                        min="18"
+                        max="70"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="address">عنوان السكن</label>
+                    <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        placeholder="أدخل عنوان السكن"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="job">العمل المطلوب</label>
+
+                    <select id="job" name="job" required>
+                        <option value="">اختر العمل</option>
+                        <option value="شيف">شيف</option>
+                        <option value="مساعد شيف">مساعد شيف</option>
+                        <option value="عامل خدمة">عامل خدمة</option>
+                        <option value="كاشير">كاشير</option>
+                        <option value="عامل توصيل">عامل توصيل</option>
+                        <option value="غير ذلك">غير ذلك</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="notes">ملاحظات</label>
+
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        rows="4"
+                        placeholder="اكتب أي ملاحظات إضافية"
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">
+                    تأكيد وإرسال الطلب
+                    <span>➜</span>
+                </button>
+
+            </form>
+
+            <p id="message" class="message"></p>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+
+<a href="#top" class="top-btn" title="العودة الى الاعلى">^</a>
+</html>

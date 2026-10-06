@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المعجنات والحلويات</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="mini-header">
+        <a href="index.html" class="header-logo">
+            <img src="photo 1.jop.png" alt="logo">
+        </a>
+        <a href="cart.html" class="header-cart-btn">
+            🛒 السلة (<span class="cart-count-badge">0</span>)
+        </a>
+    </header>
+
+
+    <div class="cards">
+
+        <div class="card">
+            <img src="photo17.jpg" alt="لحم بعجين">
+            <h2>لحم بعجين</h2>
+            <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+            <button onclick="addToCart('لحم بعجين', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </div>
+
+        <div class="card">
+            <img src="photo19.jpg" alt="فطائر لحم">
+            <h2>فطائر لحم</h2>
+            <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+            <button onclick="addToCart('فطائر لحم', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </div>
+
+        <div class="card">
+            <img src="photo18.jpg" alt="فطائر بالجبن">
+            <h2>فطائر بالجبن</h2>
+            <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+            <button onclick="addToCart('فطائر بالجبن', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </div>
+
+        <div class="card">
+            <img src="photo21.jpg" alt="كروسون بالنوتيلا">
+            <h2>كروسون بالنوتيلا</h2>
+            <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+            <button onclick="addToCart('كروسون بالنوتيلا', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </div>
+
+        <div class="card">
+            <img src="photo20.jpg" alt="كروسون بدون نوتيلا">
+            <h2>كروسون بدون نوتيلا</h2>
+            <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+            <button onclick="addToCart('كروسون بدون نوتيلا', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </div>
+
+        <div class="card">
+            <img src="photo16.jpg" alt="كليجه">
+            <h2>كليجه</h2>
+            <p style="margin: 5px 0; font-weight: bold; color: #333;">السعر: 5,000 د.ع</p>
+            <button onclick="addToCart('كليجه', 5000)" style="background-color: #e67e22; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: bold; width: 100%; margin-top: 5px;">إضافة للسلة 🛒</button>
+        </div>
+
+    </div>
+
+    <!-- زر العودة للأعلى -->
+    <a href="#top" class="top-btn" title="العودة الى الاعلى">^</a>
+
+    <!-- ربط كود الجافاسكريبت -->
+    <script>
+    const CART_KEY = "women_cooking_cart";
+
+    function getCart() {
+        return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+    }
+
+    function saveCart(cart) {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        updateCartBadge();
+    }
+
+    function addToCart(name, price) {
+        let cart = getCart();
+        let existing = cart.find(item => item.name === name);
+
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({ name: name, price: Number(price), quantity: 1 });
+        }
+ saveCart(cart);
+            alert(`تمت إضافة "${name}" إلى السلة 🛒`);
+       
+    }
+
+    function updateCartBadge() {
+        let cart = getCart();
+        let total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        let badges = document.querySelectorAll(".cart-count-badge");
+        badges.forEach(badge => badge.innerText = total);
+    }
+
+    document.addEventListener("DOMContentLoaded", updateCartBadge);
+    </script>
+</body>
+</html>
